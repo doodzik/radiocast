@@ -1,6 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import radiocastStore from './reducers/index.js'
 import App from './components/app.jsx';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let store = createStore(radiocastStore)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
 

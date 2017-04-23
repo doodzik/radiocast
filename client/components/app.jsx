@@ -11,17 +11,26 @@ import Subscriptions from './subscriptions.jsx'
 import SignIn from './sign-in.jsx'
 import Search from './search.jsx'
 
+import styled from 'styled-components'
+
+const Nav = styled.nav`
+display: flex;
+align-items: center;
+justify-content: center;
+`
+
+const StyledLink = styled(Link)`
+  padding: 25px;
+`
 
 const BasicExample = () => (
   <Router>
     <div>
-      <ul>
-        <li><Link to="/">Radiocast</Link></li>
-        <li><Link to="/subscriptions">Subscriptions</Link></li>
-        <li><Link to="/sign_in">Sign In/Up</Link></li>
-      </ul>
-
-      <hr/>
+      <Nav>
+          <StyledLink to="/">Radiocast</StyledLink>
+          <StyledLink to="/subscriptions">Subscriptions</StyledLink>
+          <StyledLink to="/sign_in">Sign In/Up</StyledLink>
+      </Nav>
 
       <Route exact path="/" component={Radiocast}/>
       <Route path="/subscriptions" component={Subscriptions}/>
