@@ -1,5 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import QueryResults from './SubscriptionList.jsx'
 
 import styled from 'styled-components'
 
@@ -20,29 +22,35 @@ const Flex = styled.div`
   margin: 15px 0;
 `
 
-const Subscriptions = () => (
-  <div>
-    <Flex justifyContent="space-between">
+class Subscriptions extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    let { results } = this.props
+    return (
+      <div>
+      <Flex justifyContent="space-between">
       <h2>Subscriptions </h2>
       <h2><Link to="/search">Add</Link></h2>
-    </Flex>
-    <List>
-      <ListElement>
-        <Flex justifyContent="space-between">
-          <div>Name</div>
-          <a href="#">remove</a>
-        </Flex>
-        <img src="https://www.smashingmagazine.com/images/music-cd-covers/3.jpg" />
-      </ListElement>
-      <ListElement>
-        <Flex justifyContent="space-between">
-          <div>Name</div>
-          <a href="#">remove</a>
-        </Flex>
-        <img src="https://www.smashingmagazine.com/images/music-cd-covers/3.jpg" />
-      </ListElement>
-    </List>
-  </div>
-)
+      </Flex>
+      <List>
+      <QueryResults results={results} />
+      </List>
+      </div>
+    )
+  }
+}
 
-export default Subscriptions
+
+const mapStateToProps = (state) => {
+  return {
+    results: state.subscriptions
+  }
+}
+
+export default connect(
+  mapStateToProps,
+)(Subscriptions)
+

@@ -13,20 +13,17 @@ class Search extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.submitQuery  = this.submitQuery.bind(this)
   }
-
-  handleChange(event) {
+handleChange(event) {
     this.setState({query: event.target.value});
   }
 
   submitQuery (event) {
     let term = this.state.query
-    this.props.onTodoClick(term)
-    console.log(term)
+    this.props.onTodoClick(term, this.props.subscriptions)
   }
 
   render() {
     let { results } = this.props
-    console.log("props", results)
 
     return(
       <div>
@@ -41,14 +38,15 @@ class Search extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    results: state.queryResult
+    results: state.queryResult,
+    subscriptions: state.subscriptions
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onTodoClick: (term) => {
-      dispatch(fetchQuery(term))
+    onTodoClick: (term, subs) => {
+      dispatch(fetchQuery({term, subs}))
     }
   }
 }

@@ -1,5 +1,8 @@
+import { connect } from 'react-redux'
 import React, { PropTypes } from 'react'
 import styled from 'styled-components'
+
+import { addSubscription, removeSubscription } from '../reducers/subscriptions.js'
 
 const List = styled.ul`
   margin: 0;
@@ -18,15 +21,16 @@ const Flex = styled.div`
   margin: 15px 0;
 `
 
-const SubscriptionList = ({ results }) => {
+const SubscriptionList = ({ results, remove, add }) => {
   var Results
   if (results.length > 0) {
-    Results = results.map(result => {
+    Results = results.map((result, index) => {
+      const addOrRemove = (result.subscribed) ? <a href="#" onClick={remove.bind(null, result)} >remove</a> : <a href="#" onClick={add.bind(null, result)} >add</a>
       return(
-        <ListElement>
+        <ListElement key={index}>
           <Flex justifyContent="space-between">
           <div>{result.title}</div>
-          <a href="#">add</a>
+          {addOrRemove}
           </Flex>
           <img src={result.arteworkUrl} />
         </ListElement>
@@ -34,7 +38,7 @@ const SubscriptionList = ({ results }) => {
     })
   }
   else {
-    Results = (<ListElement>
+    Results = (<ListElement key="0">
       empty
     </ListElement>)
 
@@ -51,4 +55,19 @@ const SubscriptionList = ({ results }) => {
 //   text: PropTypes.string.isRequired
 // }
 
-export default SubscriptionList
+const mapDispatchToProps = (dispatch) => {
+  return {
+    add: (obj) => {
+      dispatch(addSubscription(obj))
+    },
+    remove: (obj) => {
+      dispatch(removeSubscription(obj))
+    },
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SubscriptionList)
+
