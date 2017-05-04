@@ -1,12 +1,25 @@
-import { combineReducers } from 'redux'
-import subscriptions from './subscriptions.js'
-import queryResult   from './queryResult.js'
-import currentTrack  from './currentTrack.js'
+
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import { combineEpics, createEpicMiddleware } from 'redux-observable';
+
+import queryResult, {fetchQueryEpic}   from './queryResult.js'
+
+const epics = combineEpics(
+  fetchQueryEpic
+)
+
+const epicMiddleware = createEpicMiddleware(epics)
 
 const radiocastStore = combineReducers({
-  subscriptions,
-  queryResult,
-  currentTrack,
+  queryResult
 })
 
-export default radiocastStore
+export default function configureStore() {
+  const store = createStore(
+    radiocastStore,
+    applyMiddleware(epicMiddleware)
+  );
+
+
+  return store;
+}

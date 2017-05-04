@@ -5,7 +5,7 @@ import { createStore } from 'redux'
 import radiocastStore from './reducers/index.js'
 import App from './components/app.jsx';
 
-let store = createStore(radiocastStore)
+let store = radiocastStore()
 
 ReactDOM.render(
   <Provider store={store}>
